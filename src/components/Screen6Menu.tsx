@@ -383,7 +383,7 @@ export const Screen6Menu: React.FC<Props> = ({ onBackToStart }) => {
                         kalo nanti kamu buka web ini lagi dan membaca suratnya. aku berharap kamu bisa tersenyum hihii :)
                       </p>
                       <p className="italic text-[#817777]">
-                        surat ini aku buat dari seluruh isi hati aku
+                        surat ini aku buat dari seluruh isi hati aku sayang hihii
                       </p>
                       <p className="pt-2 font-script text-2xl sm:text-3xl text-[#B76E79]">
                         btw don't forget to smile okayy ? because i love your smile and it's so cute, hihii ☺️ 💗
