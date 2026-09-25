@@ -28,7 +28,7 @@ const PHOTOS_LIST: PhotoItem[] = [
   {
     id: 2,
     url: CONFIG.photo2 || 'https://mp3tourl.com/images/1790331819304-dea0ec24-573d-4fd5-a2c3-725ec3b2d0b0.jpg',
-    caption: 'pretty smile ✨',
+    caption: 'always in my mind✨',
     tapeColor: 'washi-tape-dark rotate-[3deg]',
     rotation: 'rotate-2 sm:rotate-2',
     delay: 0.3,
@@ -36,7 +36,7 @@ const PHOTOS_LIST: PhotoItem[] = [
   {
     id: 3,
     url: CONFIG.photo3 || 'https://mp3tourl.com/images/1790331788723-e7ee10e7-ffa5-4fdb-b88f-373a281aef76.jpg',
-    caption: 'always in my mind 🌸',
+    caption: 'pretty smile 🌸',
     tapeColor: 'washi-tape rotate-[-2deg]',
     rotation: '-rotate-1 sm:-rotate-2',
     delay: 0.45,
