@@ -1,0 +1,191 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-script: 'Great Vibes', cursive;
+    --font-serif: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Quicksand', sans-serif;
+  }
+
+  body {
+    font-family: var(--font-body);
+    background-color: #FFF9F5;
+    color: #2B2525;
+    overflow-x: hidden;
+    touch-action: manipulation;
+  }
+}
+
+/* Custom Fonts */
+.font-script {
+  font-family: 'Great Vibes', cursive;
+}
+
+.font-serif-elegant {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+.font-body {
+  font-family: 'Quicksand', sans-serif;
+}
+
+/* Scrapbook Paper Texture & Vignette */
+.paper-texture {
+  background-color: #FFF9F5;
+  background-image: 
+    radial-gradient(#eedcd5 0.75px, transparent 0.75px),
+    radial-gradient(#f1e3de 0.75px, #FFF9F5 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}
+
+.paper-grain {
+  position: relative;
+}
+
+.paper-grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at center, transparent 60%, rgba(216, 185, 178, 0.15) 100%);
+  z-index: 1;
+}
+
+/* Scrapbook Washi Tape Effect */
+.washi-tape {
+  background: rgba(243, 214, 208, 0.75);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(1px);
+}
+
+.washi-tape-dark {
+  background: rgba(183, 110, 121, 0.25);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* 3D Card Flip */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Heart Frame Clip Path */
+.clip-heart {
+  clip-path: path("M12 4.419C1.288-3.567-4.002 8.878 12 22 28.003 8.878 22.713-3.567 12 4.419z");
+}
+
+/* Candle flame animation */
+@keyframes flameFlicker {
+  0%, 100% {
+    transform: scale(1) rotate(-1deg);
+    opacity: 0.95;
+    filter: drop-shadow(0 0 6px rgba(255, 160, 50, 0.8));
+  }
+  25% {
+    transform: scale(1.08, 0.95) rotate(2deg);
+    opacity: 1;
+    filter: drop-shadow(0 0 10px rgba(255, 190, 80, 0.9));
+  }
+  50% {
+    transform: scale(0.92, 1.05) rotate(-2deg);
+    opacity: 0.88;
+    filter: drop-shadow(0 0 5px rgba(255, 140, 40, 0.75));
+  }
+  75% {
+    transform: scale(1.04, 1.02) rotate(1deg);
+    opacity: 0.98;
+    filter: drop-shadow(0 0 8px rgba(255, 180, 70, 0.85));
+  }
+}
+
+.animate-flame {
+  animation: flameFlicker 1.8s ease-in-out infinite;
+  transform-origin: bottom center;
+}
+
+/* Gentle pulse */
+@keyframes softPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+.animate-soft-pulse {
+  animation: softPulse 2.4s ease-in-out infinite;
+}
+
+/* Gift shake */
+@keyframes gentleWiggle {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  20% {
+    transform: rotate(-4deg);
+  }
+  40% {
+    transform: rotate(4deg);
+  }
+  60% {
+    transform: rotate(-2deg);
+  }
+  80% {
+    transform: rotate(2deg);
+  }
+}
+
+.animate-wiggle {
+  animation: gentleWiggle 2.5s ease-in-out infinite;
+}
+
+/* Floating particles */
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.6;
+  }
+  80% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-80px) rotate(20deg);
+    opacity: 0;
+  }
+}
+
+.animate-float-particle {
+  animation: floatUp 4s ease-in infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #FFF9F5;
+}
+::-webkit-scrollbar-thumb {
+  background: #E8BFC0;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #B76E79;
+}

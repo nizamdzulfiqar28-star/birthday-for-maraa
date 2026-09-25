@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Birthday Gift - Romantic Scrapbook & Love Game</title>
+    <meta name="description" content="Interactive digital birthday scrapbook gift with romantic animations, cake candle blowing, love memory card game, calendar, polaroids, and special letters." />
+    <meta property="og:title" content="Birthday Gift - Romantic Scrapbook & Love Game" />
+    <meta property="og:description" content="Interactive digital birthday scrapbook gift with romantic animations, cake candle blowing, love memory card game, calendar, polaroids, and special letters." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preload" as="audio" href="https://mp3tourl.com/audio/1790243093094-e4f78a1b-7d20-41a5-a7f3-d9ade20687a3.mp3">
+    <link rel="preload" as="audio" href="https://mp3tourl.com/audio/1790325311910-8bdd070c-5caa-4a33-b19a-288f2448660e.mp3">
+  </head>
+  <body class="bg-[#FFF9F5] text-[#2B2525] antialiased selection:bg-[#F3D6D0] selection:text-[#B76E79]">
+    <audio id="bgMusic" src="https://mp3tourl.com/audio/1790243093094-e4f78a1b-7d20-41a5-a7f3-d9ade20687a3.mp3" preload="auto" loop playsinline></audio>
+    <audio id="bgMusic_kado" src="https://mp3tourl.com/audio/1790325311910-8bdd070c-5caa-4a33-b19a-288f2448660e.mp3" preload="auto" loop playsinline></audio>
+    <audio id="bgMusic_surat" src="https://mp3tourl.com/audio/1790325311910-8bdd070c-5caa-4a33-b19a-288f2448660e.mp3" preload="auto" loop playsinline></audio>
+    <script>
+      (function() {
+        var audio = document.getElementById('bgMusic');
+        function playAudioInstantly() {
+          if (audio && audio.paused) {
+            var playPromise = audio.play();
+            if (playPromise !== undefined) {
+              playPromise.catch(function() {
+                // browser requires user interaction first
+              });
+            }
+          }
+        }
+        // Try immediately upon script evaluation
+        playAudioInstantly();
+        document.addEventListener('DOMContentLoaded', playAudioInstantly);
+        window.addEventListener('load', playAudioInstantly);
+
+        // Immediate zero-delay trigger on initial user interaction
+        var events = ['click', 'touchstart', 'pointerdown', 'keydown'];
+        var triggered = false;
+        function onAnyInteraction() {
+          if (triggered) return;
+          triggered = true;
+          playAudioInstantly();
+        }
+        events.forEach(function(e) {
+          window.addEventListener(e, onAnyInteraction, { once: true, passive: true });
+        });
+      })();
+    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

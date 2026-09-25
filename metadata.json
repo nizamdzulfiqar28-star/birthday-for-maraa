@@ -1,0 +1,10 @@
+{
+  "name": "Remix Remix PromptWeb Builder",
+  "description": "Transform your PDF prompts into professional, custom websites instantly with our automated generation tool.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
