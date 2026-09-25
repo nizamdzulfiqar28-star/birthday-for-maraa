@@ -34,7 +34,7 @@ class SoundSystem {
     }
 
     if (track === 'kado') {
-      return (CONFIG.kadoMusic || '').trim();
+      return (CONFIG.music || '').trim();
     }
     if (track === 'surat') {
       return (CONFIG.suratMusic || '').trim();

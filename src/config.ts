@@ -7,15 +7,14 @@ import { AppConfig } from './types';
 export const CONFIG: AppConfig = {
   girlfriendName: "Marwah",
   birthdayDate: "26 September 2026",
-  heroPhoto: "assets/hero.jpg",
-  photo1: "assets/photo1.jpg",
-  photo2: "assets/photo2.jpg",
-  photo3: "assets/photo3.jpg",
-  // Musik utama (background saat awal buka website)
+  heroPhoto: "",
+  photo1: "https://mp3tourl.com/images/1790331727997-1abae14f-e909-41b9-9e34-0709fca7293d.jpg",
+  photo2: "https://mp3tourl.com/images/1790331819304-dea0ec24-573d-4fd5-a2c3-725ec3b2d0b0.jpg",
+  photo3: "https://mp3tourl.com/images/1790331788723-e7ee10e7-ffa5-4fdb-b88f-373a281aef76.jpg",
+  photo4: "https://mp3tourl.com/images/1790331848067-47161d64-d647-433e-ae80-ebbf316a0fd3.jpg",
+  // Musik utama (background saat awal buka website dan kado)
   music: "https://mp3tourl.com/audio/1790243093094-e4f78a1b-7d20-41a5-a7f3-d9ade20687a3.mp3",
-  // Musik khusus bagian KADO (terputar otomatis saat masuk Kado)
-  kadoMusic: "https://mp3tourl.com/audio/1790325311910-8bdd070c-5caa-4a33-b19a-288f2448660e.mp3",
-  // Musik khusus bagian SURAT CINTA (terputar otomatis saat masuk Surat)
+  // Musik khusus surat cinta (terputar otomatis saat membuka surat)
   suratMusic: "https://mp3tourl.com/audio/1790325311910-8bdd070c-5caa-4a33-b19a-288f2448660e.mp3",
 };
 

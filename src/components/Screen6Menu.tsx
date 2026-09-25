@@ -44,20 +44,20 @@ export const Screen6Menu: React.FC<Props> = ({ onBackToStart }) => {
     triggerHeartConfetti(0.5, 0.5);
     soundSystem.playRomanticChime(659.25, 0.4, 0.08);
 
-    // Switch music automatically for Kado and Surat
-    if (type === 'kado') {
-      soundSystem.switchTrack('kado');
-    } else if (type === 'surat') {
+    // Switch music automatically ONLY for Surat Cinta
+    if (type === 'surat') {
       soundSystem.switchTrack('surat');
     }
   };
 
   const closeModal = () => {
+    if (activeModal === 'surat') {
+      // Switch music back to main song automatically
+      soundSystem.switchTrack('default');
+    }
     setActiveModal('none');
     setIsGiftOpened(false);
     setIsEnvelopeOpened(false);
-    // Switch music back to main song automatically
-    soundSystem.switchTrack('default');
   };
 
   // Gift open
@@ -76,10 +76,11 @@ export const Screen6Menu: React.FC<Props> = ({ onBackToStart }) => {
     soundSystem.playRomanticChime(587.33, 0.4, 0.09);
   };
 
-  // Send reply
+  // Send reply directly to WhatsApp
   const handleSendReply = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!replyText.trim()) return;
+    const trimmed = replyText.trim();
+    if (!trimmed) return;
 
     setIsSending(true);
     soundSystem.playRomanticChime(784, 0.4, 0.1);
@@ -87,20 +88,31 @@ export const Screen6Menu: React.FC<Props> = ({ onBackToStart }) => {
 
     // Save to localStorage
     try {
-      localStorage.setItem('birthday_reply', replyText.trim());
-      setSavedReply(replyText.trim());
+      localStorage.setItem('birthday_reply', trimmed);
+      setSavedReply(trimmed);
     } catch {
       // ignore
     }
 
-    // OPTIONAL BACKEND:
-    // Formspree / EmailJS / Supabase can be wired here
+    const targetPhone = '62895365185464';
+    const waText = `Halo ♡ Ini pesan balasan dari Marwah untuk surat cintamu:\n\n"${trimmed}"\n\n♡ Makasih banyak yaa atas ucapan & web scrapbook indahnya! ✨`;
+    const waUrl = `https://api.whatsapp.com/send?phone=${targetPhone}&text=${encodeURIComponent(waText)}`;
+
+    // Automatically open WhatsApp
+    try {
+      const newWin = window.open(waUrl, '_blank');
+      if (!newWin) {
+        window.location.href = waUrl;
+      }
+    } catch {
+      window.location.href = waUrl;
+    }
 
     setTimeout(() => {
       setIsSending(false);
       setIsReplySent(true);
       setReplyText('');
-    }, 600);
+    }, 400);
   };
 
   return (
@@ -232,8 +244,7 @@ export const Screen6Menu: React.FC<Props> = ({ onBackToStart }) => {
               {/* Top decoration balloons & stars */}
               <div className="text-2xl pt-4 mb-1">🎈 🎂 🎈</div>
               <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#FCECE9] text-[#B76E79] text-[11px] font-serif-elegant italic mb-2 border border-[#E8BFC0]/60">
-                <span className="animate-spin text-xs">♪</span>
-                <span>Lagu Spesial Kado aktif ♡</span>
+                <span>Spesial untuk Marwah ♡</span>
               </div>
 
               {!isGiftOpened ? (
@@ -413,11 +424,23 @@ export const Screen6Menu: React.FC<Props> = ({ onBackToStart }) => {
                           Your message has been sent with love ♡
                         </p>
                         <p className="text-[11px] text-[#817777] font-body mt-1">
-                          Pesanmu sudah tersimpan dengan manis di memori halaman ini.
+                          Pesanmu telah otomatis diteruskan ke WhatsApp (+62895365185464) dan tersimpan di memori halaman ini.
                         </p>
+                        {savedReply && (
+                          <div className="mt-3">
+                            <a
+                              href={`https://api.whatsapp.com/send?phone=62895365185464&text=${encodeURIComponent(`Halo ♡ Ini pesan balasan dari Marwah untuk surat cintamu:\n\n"${savedReply}"\n\n♡ Makasih banyak yaa atas ucapan & web scrapbook indahnya! ✨`)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-serif-elegant italic text-xs shadow-xs transition-colors"
+                            >
+                              <span>Buka Chat WhatsApp (+62895365185464) 💬</span>
+                            </a>
+                          </div>
+                        )}
                         <button
                           onClick={() => setIsReplySent(false)}
-                          className="mt-3 text-xs text-[#B76E79] underline cursor-pointer"
+                          className="mt-3 block mx-auto text-xs text-[#B76E79] underline cursor-pointer"
                         >
                           Tulis balasan lagi
                         </button>
@@ -431,14 +454,17 @@ export const Screen6Menu: React.FC<Props> = ({ onBackToStart }) => {
                           placeholder="Write your reply here..."
                           className="w-full p-3 text-xs sm:text-sm bg-white border border-[#F3D6D0] rounded-xl font-body text-[#2B2525] placeholder:text-[#817777]/60 focus:outline-none focus:border-[#B76E79] transition-colors resize-none"
                         />
-                        <div className="flex justify-end">
+                        <div className="flex justify-between items-center pt-1">
+                          <span className="text-[11px] text-[#817777] italic font-serif-elegant">
+                            Kirim ke WhatsApp 💬
+                          </span>
                           <button
                             type="submit"
                             disabled={isSending || !replyText.trim()}
                             className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#B76E79] hover:bg-[#A35D68] disabled:opacity-50 text-white font-serif-elegant italic text-xs transition-colors cursor-pointer shadow-xs"
                           >
                             <Send className="w-3 h-3" />
-                            <span>Send with Love 💌</span>
+                            <span>Kirim ke WhatsApp 💌</span>
                           </button>
                         </div>
                       </form>

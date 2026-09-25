@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { CONFIG, ELEGANT_PLACEHOLDERS } from '../config';
+import { CONFIG } from '../config';
 import { soundSystem } from '../utils/audio';
 import { triggerHeartConfetti } from '../utils/confetti';
 
@@ -13,7 +13,6 @@ export const Screen1Landing: React.FC<Props> = ({ onOpen, onSecretTrigger }) => 
   const [isHovered, setIsHovered] = useState(false);
   const [isOpening, setIsOpening] = useState(false);
   const [heartTapCount, setHeartTapCount] = useState(0);
-  const [photoSrc, setPhotoSrc] = useState(CONFIG.heroPhoto || ELEGANT_PLACEHOLDERS.hero);
 
   const handleHeartClick = () => {
     const next = heartTapCount + 1;
@@ -91,17 +90,59 @@ export const Screen1Landing: React.FC<Props> = ({ onOpen, onSecretTrigger }) => 
               </defs>
             </svg>
 
-            {/* Heart shaped photo with fallback */}
+            {/* Big Beautiful Love Heart Art (Replacing person photo) */}
             <div
-              className="w-full h-full relative"
+              className="w-full h-full relative flex items-center justify-center bg-gradient-to-b from-[#FFF0EE] via-[#FCE4E2] to-[#FAD4D0]"
               style={{ clipPath: 'url(#heartClip)' }}
             >
-              <img
-                src={photoSrc}
-                alt={`Photo of ${CONFIG.girlfriendName}`}
-                onError={() => setPhotoSrc(ELEGANT_PLACEHOLDERS.hero)}
-                className="w-full h-full object-cover"
-              />
+              {/* Soft romantic backdrop sparkles & aura */}
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.8)_0%,transparent_70%)]" />
+
+              {/* Big Glowing Dimensional Heart Graphic */}
+              <motion.div
+                animate={{ scale: [1, 1.05, 1] }}
+                transition={{ repeat: Infinity, duration: 2.2, ease: 'easeInOut' }}
+                className="relative flex items-center justify-center"
+              >
+                {/* Outer Glow */}
+                <div className="absolute w-36 h-36 rounded-full bg-[#B76E79]/20 blur-xl animate-pulse" />
+
+                {/* Big Center Heart SVG */}
+                <svg width="128" height="120" viewBox="0 0 100 90" className="filter drop-shadow-[0_8px_16px_rgba(183,110,121,0.35)]">
+                  <defs>
+                    <linearGradient id="bigHeartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#E28C96" />
+                      <stop offset="50%" stopColor="#B76E79" />
+                      <stop offset="100%" stopColor="#9C4D59" />
+                    </linearGradient>
+                    <linearGradient id="heartShine" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.7" />
+                      <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
+                    </linearGradient>
+                  </defs>
+                  
+                  {/* Base Heart */}
+                  <path
+                    d="M50,86 C20,63,0,44,0,27 C0,12,12,0,28,0 C38,0,46,6,50,14 C54,6,62,0,72,0 C88,0,100,12,100,27 C100,44,80,63,50,86 Z"
+                    fill="url(#bigHeartGradient)"
+                  />
+                  
+                  {/* Glossy Top Reflection */}
+                  <path
+                    d="M50,16 C46,8,38,3,28,3 C16,3,6,13,5,26 C5,32,9,39,15,46 C26,38,38,26,50,16 Z"
+                    fill="url(#heartShine)"
+                  />
+
+                  {/* Inner Little Sparkles */}
+                  <circle cx="70" cy="25" r="2" fill="#FFFDFB" opacity="0.9" />
+                  <circle cx="76" cy="32" r="1.2" fill="#FFFDFB" opacity="0.8" />
+                  <circle cx="30" cy="22" r="1.5" fill="#FFFDFB" opacity="0.9" />
+                </svg>
+
+                {/* Floating romantic sparkles around the heart */}
+                <span className="absolute -top-1 -right-1 text-sm text-[#B76E79] select-none animate-bounce">✨</span>
+                <span className="absolute bottom-2 -left-2 text-xs text-[#E28C96] select-none">✦</span>
+              </motion.div>
             </div>
 
             {/* Subtle romantic frame border overlay */}
