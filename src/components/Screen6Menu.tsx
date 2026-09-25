@@ -429,7 +429,7 @@ export const Screen6Menu: React.FC<Props> = ({ onBackToStart }) => {
                         {savedReply && (
                           <div className="mt-3">
                             <a
-                              href={`https://api.whatsapp.com/send?phone=62895365185464&text=${encodeURIComponent(`Halo ♡ Ini pesan balasan dari Marwah untuk surat cintamu:\n\n"${savedReply}"\n\n♡ Makasih banyak yaa atas ucapan & web scrapbook indahnya! ✨`)}`}
+                              href={`https://api.whatsapp.com/send?phone=62895365185464&text=${encodeURIComponent(`\n\n"${savedReply}"\n\n♡`)}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-serif-elegant italic text-xs shadow-xs transition-colors"
