@@ -18,17 +18,14 @@ export const Screen6Menu: React.FC<Props> = ({ onBackToStart }) => {
   // Surat state
   const [isEnvelopeOpened, setIsEnvelopeOpened] = useState(false);
   const [replyText, setReplyText] = useState('');
-  const [savedReply, setSavedReply] = useState<string | null>(null);
+  const [lastSentText, setLastSentText] = useState<string>('');
   const [isReplySent, setIsReplySent] = useState(false);
   const [isSending, setIsSending] = useState(false);
 
-  // Load saved reply from localStorage
+  // Clear any previously saved replies from localStorage as requested
   useEffect(() => {
     try {
-      const existing = localStorage.getItem('birthday_reply');
-      if (existing) {
-        setSavedReply(existing);
-      }
+      localStorage.removeItem('birthday_reply');
     } catch {
       // localStorage not accessible
     }
@@ -43,18 +40,12 @@ export const Screen6Menu: React.FC<Props> = ({ onBackToStart }) => {
     setActiveModal(type);
     triggerHeartConfetti(0.5, 0.5);
     soundSystem.playRomanticChime(659.25, 0.4, 0.08);
-
-    // Switch music automatically ONLY for Surat Cinta
-    if (type === 'surat') {
-      soundSystem.switchTrack('surat');
-    }
+    // Note: Do NOT switch track yet. For Surat, the music starts only when the letter is opened!
   };
 
   const closeModal = () => {
-    if (activeModal === 'surat') {
-      // Switch music back to main song automatically
-      soundSystem.switchTrack('default');
-    }
+    // Switch music back to main song automatically
+    soundSystem.switchTrack('default');
     setActiveModal('none');
     setIsGiftOpened(false);
     setIsEnvelopeOpened(false);
@@ -68,15 +59,18 @@ export const Screen6Menu: React.FC<Props> = ({ onBackToStart }) => {
     soundSystem.playCelebration();
   };
 
-  // Envelope open in Letter view
+  // Envelope open in Letter view -> words appear, music switches to surat track
   const handleOpenEnvelopeLetter = () => {
     if (isEnvelopeOpened) return;
     setIsEnvelopeOpened(true);
     triggerHeartConfetti(0.5, 0.4);
     soundSystem.playRomanticChime(587.33, 0.4, 0.09);
+
+    // Switch music to surat track now that the letter is opened and words are shown!
+    soundSystem.switchTrack('surat');
   };
 
-  // Send reply directly to WhatsApp
+  // Send reply directly to WhatsApp (ONLY contains what she typed, no greeting template, no saved history)
   const handleSendReply = (e: React.FormEvent) => {
     e.preventDefault();
     const trimmed = replyText.trim();
@@ -86,17 +80,12 @@ export const Screen6Menu: React.FC<Props> = ({ onBackToStart }) => {
     soundSystem.playRomanticChime(784, 0.4, 0.1);
     triggerHeartConfetti(0.5, 0.6);
 
-    // Save to localStorage
-    try {
-      localStorage.setItem('birthday_reply', trimmed);
-      setSavedReply(trimmed);
-    } catch {
-      // ignore
-    }
-
     const targetPhone = '62895365185464';
-    const waText = `Halo ♡ Ini pesan balasan dari Marwah untuk surat cintamu:\n\n"${trimmed}"\n\n♡ Makasih banyak yaa atas ucapan & web scrapbook indahnya! ✨`;
+    // Only the exact text she typed - no extra words or templates
+    const waText = trimmed;
     const waUrl = `https://api.whatsapp.com/send?phone=${targetPhone}&text=${encodeURIComponent(waText)}`;
+
+    setLastSentText(trimmed);
 
     // Automatically open WhatsApp
     try {
@@ -112,7 +101,7 @@ export const Screen6Menu: React.FC<Props> = ({ onBackToStart }) => {
       setIsSending(false);
       setIsReplySent(true);
       setReplyText('');
-    }, 400);
+    }, 350);
   };
 
   return (
@@ -327,8 +316,14 @@ export const Screen6Menu: React.FC<Props> = ({ onBackToStart }) => {
               </button>
 
               <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#FCECE9] text-[#B76E79] text-[11px] font-serif-elegant italic mb-2 border border-[#E8BFC0]/60">
-                <span className="animate-spin text-xs">♪</span>
-                <span>Lagu Surat Cinta aktif ♡</span>
+                {isEnvelopeOpened ? (
+                  <>
+                    <span className="animate-spin text-xs">♪</span>
+                    <span>Lagu Surat Cinta diputar ♡</span>
+                  </>
+                ) : (
+                  <span>Surat Spesial untuk Marwah ♡</span>
+                )}
               </div>
 
               {!isEnvelopeOpened ? (
@@ -403,16 +398,6 @@ export const Screen6Menu: React.FC<Props> = ({ onBackToStart }) => {
                       <span className="text-[#B76E79]">♡</span>
                     </h5>
 
-                    {/* If user previously replied */}
-                    {savedReply && !isReplySent && (
-                      <div className="mb-3 p-3 bg-[#FFFDFB] border border-[#F3D6D0] rounded-xl text-xs text-[#2B2525] font-body">
-                        <span className="text-[11px] font-semibold text-[#B76E79] block mb-1">
-                          Your previous reply:
-                        </span>
-                        <p className="italic text-[#817777]">"{savedReply}"</p>
-                      </div>
-                    )}
-
                     {isReplySent ? (
                       <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
@@ -421,15 +406,15 @@ export const Screen6Menu: React.FC<Props> = ({ onBackToStart }) => {
                       >
                         <CheckCircle2 className="w-5 h-5 text-[#B76E79] mx-auto mb-1" />
                         <p className="font-serif-elegant italic text-sm text-[#2B2525]">
-                          Your message has been sent with love ♡
+                          Pesanmu telah dikirim ke WhatsApp ♡
                         </p>
                         <p className="text-[11px] text-[#817777] font-body mt-1">
-                          Pesanmu telah otomatis diteruskan ke WhatsApp (+62895365185464) dan tersimpan di memori halaman ini.
+                          Aplikasi WhatsApp dibuka otomatis untuk mengirimkan pesanmu ke +62895365185464.
                         </p>
-                        {savedReply && (
+                        {lastSentText && (
                           <div className="mt-3">
                             <a
-                              href={`https://api.whatsapp.com/send?phone=62895365185464&text=${encodeURIComponent(`\n\n"${savedReply}"\n\n♡`)}`}
+                              href={`https://api.whatsapp.com/send?phone=62895365185464&text=${encodeURIComponent(lastSentText)}`}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-serif-elegant italic text-xs shadow-xs transition-colors"
@@ -439,7 +424,10 @@ export const Screen6Menu: React.FC<Props> = ({ onBackToStart }) => {
                           </div>
                         )}
                         <button
-                          onClick={() => setIsReplySent(false)}
+                          onClick={() => {
+                            setIsReplySent(false);
+                            setLastSentText('');
+                          }}
                           className="mt-3 block mx-auto text-xs text-[#B76E79] underline cursor-pointer"
                         >
                           Tulis balasan lagi
